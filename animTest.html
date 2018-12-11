@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset=utf-8 />
+    <title>HTML5 Rain</title>
+    <!--[if IE]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <style>
+      article, aside, figure, footer, header, hgroup,
+      menu, nav, section { display: block; }
+    </style>
+    <script type="text/javascript">
+        var canvas = null;
+        var context = null;
+        var bufferCanvas = null;
+        var bufferCanvasCtx = null;
+        var flakeArray = [];
+        var flakeTimer = null;
+        var maxFlakes = 15; // Here you may set max flackes to be created
+        var elemLeft;
+        var elemTop;
+
+        function init() {
+            //Canvas on Page
+            canvas = document.getElementById('canvasRain');
+
+            canvas.addEventListener('click', function(event){
+
+              var x = event.pageX - elemLeft;
+              var y = event.pageY - elemTop;
+
+              console.log("click x: ",x," click y: ",y);
+
+              for(var i = 0; i < flakeArray.length; i++){
+
+                console.log("elem x: ",flakeArray[i].x," elme y: ",flakeArray[i].y);
+                if (y > flakeArray[i].y && y<= flakeArray[i].y + flakeArray[i].height && x > flakeArray[i].x && x <= flakeArray[i].x + flakeArray[i].width) {
+                  flakeArray[i].paused = !flakeArray[i].paused;
+                  for(var j = 0; j < flakeArray.length; j++){
+                    if(j != i){
+                      flakeArray[j].paused = false;
+                    }
+                  }
+                }
+              }
+
+
+            }, false);
+
+            context = canvas.getContext("2d");
+
+            //Buffer Canvas
+            bufferCanvas = document.createElement("canvas");
+            bufferCanvasCtx = bufferCanvas.getContext("2d");
+            bufferCanvasCtx.canvas.width = context.canvas.width;
+            bufferCanvasCtx.canvas.height = context.canvas.height;
+            elemLeft = canvas.offsetLeft;
+            elemTop = canvas.offsetTop;
+
+            flakeTimer = setInterval(addFlake, 1000);
+
+            Draw();
+
+            setInterval(animate, 30);
+
+        }
+
+
+
+        function animate() {
+
+            Update();
+            Draw();
+
+        }
+        function addFlake() {
+          if (flakeArray.length == maxFlakes){
+            // do nothing
+          }else{
+            flakeArray[flakeArray.length] = new Flake();
+          }
+        }
+        function blank() {
+            bufferCanvasCtx.fillStyle = "rgba(0,0,0,0.8)";
+            bufferCanvasCtx.fillRect(0, 0, bufferCanvasCtx.canvas.width, bufferCanvasCtx.canvas.height);
+        }
+        function Update() {
+            for (var i = 0; i < flakeArray.length; i++){
+              if(flakeArray[i].paused){
+                // nothing
+              }else{
+                if (flakeArray[i].y < context.canvas.height) {
+                    flakeArray[i].y += flakeArray[i].speed;
+                    if (flakeArray[i].y > context.canvas.height)
+                        flakeArray[i].y = -flakeArray[i].height;
+                    flakeArray[i].x += flakeArray[i].drift;
+                    if (flakeArray[i].x > context.canvas.width)
+                        flakeArray[i].x = -flakeArray[i].width;
+                }else{
+                  flakeArray.splice(i, 1);
+                }
+              }
+            }
+        }
+        function Flake() {
+            this.x = Math.round(Math.random() * context.canvas.width);
+            this.y = -160;
+            this.drift = 0;
+            this.speed = Math.round(Math.random() * 1.5) + 1;
+            this.width = 80;
+            this.height = this.width;
+            var r = RandColor();
+            var g = RandColor();
+            var b = RandColor();
+            this.colorString = "rgba("+r+","+g+","+b+",1.0)";
+            this.paused = false;
+
+
+        }
+
+        function Draw() {
+            context.save();
+
+            blank();
+
+            for (var i = 0; i < flakeArray.length; i++) {
+                bufferCanvasCtx.fillStyle = flakeArray[i].colorString;
+                bufferCanvasCtx.fillRect(flakeArray[i].x, flakeArray[i].y, flakeArray[i].width, flakeArray[i].height);
+            }
+
+
+            context.drawImage(bufferCanvas, 0, 0, bufferCanvas.width, bufferCanvas.height);
+            context.restore();
+        }
+
+        function RandColor(){
+          return Math.random() * 255;
+        }
+
+    </script>
+    </head>
+    <body onload="init()">
+      <canvas  id="canvasRain" width="1400px" height="800px">Canvas Not Supported</canvas>
+    </body>
+    </html>
