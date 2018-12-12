@@ -9,8 +9,23 @@
     <style>
       article, aside, figure, footer, header, hgroup,
       menu, nav, section { display: block; }
+
+      body{
+        margin: 0;
+        padding: 0;
+      }
+
+      #canvasRain{
+        position:absolute;
+        left:0;
+        top:0;
+        margin: 0;
+        padding: 0;
+      }
     </style>
+
     <script type="text/javascript">
+        var body = null;
         var canvas = null;
         var context = null;
         var bufferCanvas = null;
@@ -21,9 +36,21 @@
         var elemLeft;
         var elemTop;
 
+
+
         function init() {
             //Canvas on Page
+            body = document.body;
             canvas = document.getElementById('canvasRain');
+            canvas.width  = window.innerWidth;
+            canvas.height  = window.innerHeight;
+
+            window.addEventListener('resize', function(){
+              console.log("resized");
+              canvas.width  = window.innerWidth;
+              canvas.height  = window.innerHeight;
+            });
+
 
             canvas.addEventListener('click', function(event){
 
@@ -74,6 +101,7 @@
             Draw();
 
         }
+
         function addFlake() {
           if (flakeArray.length == maxFlakes){
             // do nothing
@@ -81,6 +109,7 @@
             flakeArray[flakeArray.length] = new Flake();
           }
         }
+
         function blank() {
             bufferCanvasCtx.fillStyle = "rgba(0,0,0,0.8)";
             bufferCanvasCtx.fillRect(0, 0, bufferCanvasCtx.canvas.width, bufferCanvasCtx.canvas.height);
@@ -104,8 +133,11 @@
             }
         }
         function Flake() {
+
+
             this.x = Math.round(Math.random() * context.canvas.width);
-            this.y = -160;
+            this.y = -80;
+
             this.drift = 0;
             this.speed = Math.round(Math.random() * 1.5) + 1;
             this.width = 80;
@@ -129,7 +161,6 @@
                 bufferCanvasCtx.fillRect(flakeArray[i].x, flakeArray[i].y, flakeArray[i].width, flakeArray[i].height);
             }
 
-
             context.drawImage(bufferCanvas, 0, 0, bufferCanvas.width, bufferCanvas.height);
             context.restore();
         }
@@ -141,6 +172,6 @@
     </script>
     </head>
     <body onload="init()">
-      <canvas  id="canvasRain" width="1400px" height="800px">Canvas Not Supported</canvas>
+      <canvas  id="canvasRain">Canvas Not Supported</canvas>
     </body>
     </html>
