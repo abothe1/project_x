@@ -27,6 +27,7 @@
         height: 100%;
         position: absolute;
         background-color: rgba(0,0,0,0.9);
+        overflow: hidden;
       }
 
       .rainDrop{
@@ -70,8 +71,8 @@
 
       function Update(){
         for(var i = 0; i < drops.length; i++){
-          if(drops[i].paused){
-            // nothing
+          if(drops[i].theDiv.paused){
+            // pause
           }else{
             if (drops[i].y < window.innerHeight){
               drops[i].UpdatePosition(3);
@@ -91,6 +92,7 @@
           // do nothing
         }else{
           drops[drops.length] = new Drop();
+          drops[drops.length-1].id = drops.length;
         }
       }
 
@@ -99,29 +101,30 @@
 
         constructor(){
           console.log("creating drop")
+          this.id = 0;
           this.theDiv = document.createElement("div");
           this.theDiv.className = "rainDrop";
-          this.theDiv.id = "drop"+drops.length;
           this.width = 80;
           this.height = 80;
           this.x = Math.random()*(window.innerWidth);
           this.y = -80;
-          this.paused = false;
           this.UpdateDiv();
 
           var r = RandColor();
           var g = RandColor();
           var b = RandColor();
           this.theDiv.style.backgroundColor = "rgba("+r+","+g+","+b+",1.0)";
-
-
-          this.theDiv.addEventListener('click',function(){
-            console.log("click, paused: "+this.paused);
-            this.paused = !this.paused;
-          });
+          this.theDiv.paused = false;
 
           rain.appendChild(this.theDiv);
+          this.AddClickToDiv();
 
+        }
+
+        AddClickToDiv(){
+          this.theDiv.addEventListener('click',function(){
+            this.paused = !this.paused;
+          },false);
         }
 
         UpdateDiv(){
@@ -129,6 +132,8 @@
           this.yString = this.y+"px";
           this.widthString = this.width+"px";
           this.heightString = this.height+"px";
+          this.idString = "drop"+this.id;
+          this.theDiv.id = this.idString;
           this.theDiv.style.width = this.widthString;
           this.theDiv.style.height = this.widthString;
           this.theDiv.style.left = this.xString;
@@ -139,16 +144,12 @@
           this.y += speed;
           this.UpdateDiv();
         }
+
       }
 
       function RandColor(){
         return Math.random() * 255;
       }
-
-
-
-
-
 
     </script>
     </head>
