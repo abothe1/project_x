@@ -34,6 +34,20 @@
         margin: 0;
         padding: 0;
       }
+      #myNewsTicker{
+        position: absolute;
+        left:0px;
+        top:window.innerHeight-40;
+      }
+      @keyframes slide {
+        from { left: 100%;}
+        to { left: -100%;}
+      }
+      @-webkit-keyframes slide {
+        from { left: 100%;}
+        to { left: -100%;}
+      }
+
       #myNewsTicker {
         color:red;
         background:#f0f0f0;
@@ -62,8 +76,9 @@
         -webkit-animation-timing-function:linear;
         -webkit-animation-iteration-count: infinite;
       }
+
     </style>
-    
+
     </head>
     <body onload="init()">
       <div id="container">
