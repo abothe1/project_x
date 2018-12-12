@@ -76,12 +76,45 @@
         -webkit-animation-timing-function:linear;
         -webkit-animation-iteration-count: infinite;
       }
+      #mainLogo{
+        top:0px;
+        left:0px;
+        width:100px;
+        height:100px;
+        shape-inside: circle();
+      }
+      .logoButton{
+        top:130px;
+        left:0px;
+        /*position: absolute;*/
+      }
+      #login{
+        top:130px;
+        left:0px;
+        visibility: hidden;
+      }
+      #sign_up{
+        top:130px;
+        left:20px;
+        visibility: hidden;
+
+      }
+      #searchButton{
+        top:130px;
+        left:40px;
+        visibility: hidden;
+      }
+
 
     </style>
 
     </head>
     <body onload="init()">
       <div id="container">
+        <img src="resources/bandaicon.1.png" alt="Banda Logo" id="mainLogo">
+        <button class="logoButton" id="login">Login</button>
+        <button class="logoButton" id="sign_up">Sign Up</button>
+        <button class="logoButton" id="searchButton">Search</button>
         <div id="rain"></div>
       </div>
       <div id="myNewsTicker">
@@ -96,6 +129,10 @@
       maxDrops = 15;
       var newsArr = [];
       var ticker = document.getElementById("text");
+      var logo = document.getElementById("mainLogo");
+      var signUpButt=document.getElementById("sign_up");
+      var loginButton=document.getElementById("login");
+      var searchButton=document.getElementById("searchButton");
 
       function init(){
 
@@ -242,6 +279,18 @@
             //i+=1;
           }
           return ans;
+        }
+        logo.onmouseover=function(){
+          console.log("registered hovering on main logo");
+          searchButton.style.visibility="visible";
+          signUpButt.style.visibility="visible";
+          loginButton.style.visibility="visible";
+          setInterval(hideButtons,2000);
+        };
+        function hideButtons(){
+          searchButton.style.visibility="hidden";
+          signUpButt.style.visibility="hidden";
+          loginButton.style.visibility="hidden";
         }
     </script>
     </html>
