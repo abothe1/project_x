@@ -34,6 +34,34 @@
         margin: 0;
         padding: 0;
       }
+      #myNewsTicker {
+        color:red;
+        background:#f0f0f0;
+        width:100%;
+        height:120px;
+        line-height:120px;
+        /*?*/
+        overflow:visible;
+        position:absolute;
+      }
+
+      #text {
+        position:absolute;
+        overflow: visible;
+        top:0;
+        left:0;
+        width:100%;
+        height:120px;
+        font-size:20px;
+        animation-name: slide;
+        animation-duration: 20s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        -webkit-animation-name: slide;
+        -webkit-animation-duration: 20s;
+        -webkit-animation-timing-function:linear;
+        -webkit-animation-iteration-count: infinite;
+      }
 
     </style>
     <script>
@@ -42,6 +70,8 @@
       drops = [],
       rainTimer = null,
       maxDrops = 15;
+      var newsArr = [];
+      var ticker = document.getElementById("text");
 
       function init(){
 
@@ -144,8 +174,51 @@
       function RandColor(){
         return Math.random() * 255;
       }
+      function displayNews(data){
+          //str
+          console.log("got into display news and was: "+data);
+        //  for (var i=0; i<newsArr.length; i++){
+          //  console.log(newsArr[i]);
+        //  }
+          ticker.innerHTML="New Event: "+data;
+          //ticker.innerHTML=data;
+          /*
+          console.log("got passed the getting ticker line");
+          var newElement = document.createElement('div');
+          console.log("got passed the getting create line");
+          newElement.textContent=data;
+          console.log("got passed the getting text line");
+          document.body.appendChild(newElement);
+          */
+        }
 
-
+        function getNewsFromMongo(data){
+          console.log("data was this: "+data);
+          var str = String(data);
+          newsArr.push(str);
+          for (var i = 0; i<newsArr.length; i++){
+            console.log("this is the data at"+i+": "+newsArr[i]);
+          }
+          displayNews(parseEventFromMongo(str));
+        }
+        function parseEventFromMongo(data){
+          var str = String(data);
+          var pieces = str.split(" ");
+          var ans = "";
+          //var i = 0;
+          for (p in pieces){
+            console.log("i was: "+p+" and the piece was: "+pieces[p]);
+            if (p==1){
+              var x="<a href = https://www.pornhub.com>"+pieces[p]+" "+"</a>";
+            }
+            else{
+              x=pieces[p];
+            }
+            ans+=x+" ";
+            //i+=1;
+          }
+          return ans;
+        }
 
 
 
@@ -155,6 +228,9 @@
     <body onload="init()">
       <div id="container">
         <div id="rain"></div>
+      </div>
+      <div id="myNewsTicker">
+        <div id="text">THIS is the text that should scroll</div>
       </div>
     </body>
     </html>
