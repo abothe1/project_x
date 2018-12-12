@@ -62,8 +62,17 @@
         -webkit-animation-timing-function:linear;
         -webkit-animation-iteration-count: infinite;
       }
-
     </style>
+    
+    </head>
+    <body onload="init()">
+      <div id="container">
+        <div id="rain"></div>
+      </div>
+      <div id="myNewsTicker">
+        <div id="text">THIS is the text that should scroll</div>
+      </div>
+    </body>
     <script>
 
       var rain = null,
@@ -219,18 +228,5 @@
           }
           return ans;
         }
-
-
-
-
     </script>
-    </head>
-    <body onload="init()">
-      <div id="container">
-        <div id="rain"></div>
-      </div>
-      <div id="myNewsTicker">
-        <div id="text">THIS is the text that should scroll</div>
-      </div>
-    </body>
     </html>
