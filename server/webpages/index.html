@@ -17,32 +17,23 @@
 		});
 	}
 
-	// function register() {
-	// 	var body = {
-	// 		username: $("#username").val(),
-	// 		email: $("#email").val();
-	// 		password: $("#password").val();
-	// 	}
-	// }
-	socketio.on("create-user-response", data => {
-		alert(JSON.stringify(data));
-	});
-	socketio.on("login-user-response", data => {
-		alert(JSON.stringify(data));
-	});
-
 	function register() {
 		var username = $("#username").val();
 		var email = $("#email").val();
 		var password = $("#password").val();
-		socketio.emit("create-user", {username:username, password:password, email: email});
+		
+		$.post('register', {username:username, password:password, email:email}, result => {
+			alert(JSON.stringify(result))
+		})
 	}
 
 	function login() {
 		var username = $("#username").val();
 		var password = $("#password").val();
-		console.log(`${username}: ${password}`);
-		socketio.emit("login-user", {username:username, password:password});
+
+		$.post('login', {username:username, password:password}, result => {
+			alert(JSON.stringify(result))
+		})
 	}
 </script>
 </head>
