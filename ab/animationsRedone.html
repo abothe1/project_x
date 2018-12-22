@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+    <meta charset=utf-8 />
+    <title>HTML5 Rain</title>
+    <!--[if IE]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <style>
+      article, aside, figure, footer, header, hgroup,
+      menu, nav, section { display: block; }
+
+      body{
+        margin: 0;
+        padding: 0;
+      }
+
+      #container {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: black;
+      }
+
+      #rain{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background-color: rgba(0,0,0,0.9);
+      }
+
+      .rainDrop{
+        position: absolute;
+        margin: 0;
+        padding: 0;
+      }
+      #myNewsTicker{
+        position: absolute;
+        left:0px;
+        top:window.innerHeight-40;
+      }
+      @keyframes slide {
+        from { left: 100%;}
+        to { left: -100%;}
+      }
+      @-webkit-keyframes slide {
+        from { left: 100%;}
+        to { left: -100%;}
+      }
+
+      #myNewsTicker {
+        color:red;
+        background:#f0f0f0;
+        width:100%;
+        height:120px;
+        line-height:120px;
+        /*?*/
+        overflow:visible;
+        position:absolute;
+      }
+
+      #text {
+        position:absolute;
+        overflow: visible;
+        top:0;
+        left:0;
+        width:100%;
+        height:120px;
+        font-size:20px;
+        animation-name: slide;
+        animation-duration: 20s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        -webkit-animation-name: slide;
+        -webkit-animation-duration: 20s;
+        -webkit-animation-timing-function:linear;
+        -webkit-animation-iteration-count: infinite;
+      }
+      #mainLogo{
+        top:0px;
+        left:0px;
+        width:100px;
+        height:100px;
+        shape-inside: circle();
+      }
+      .logoButton{
+        top:130px;
+        left:0px;
+        /*position: absolute;*/
+      }
+      #login{
+        top:130px;
+        left:0px;
+        visibility: hidden;
+      }
+      #sign_up{
+        top:130px;
+        left:20px;
+        visibility: hidden;
+
+      }
+      #searchButton{
+        top:130px;
+        left:40px;
+        visibility: hidden;
+      }
+
+
+    </style>
+
+    </head>
+    <body onload="init()">
+      <div id="container">
+        <img src="resources/bandaicon.1.png" alt="Banda Logo" id="mainLogo">
+        <button class="logoButton" id="login">Login</button>
+        <button class="logoButton" id="sign_up">Sign Up</button>
+        <button class="logoButton" id="searchButton">Search</button>
+        <div id="rain"></div>
+      </div>
+      <div id="myNewsTicker">
+        <div id="text">THIS is the text that should scroll</div>
+      </div>
+    </body>
+    <script>
+
+      var rain = null,
+      drops = [],
+      rainTimer = null,
+      maxDrops = 15;
+      var newsArr = [];
+      var ticker = document.getElementById("text");
+      var logo = document.getElementById("mainLogo");
+      var signUpButt=document.getElementById("sign_up");
+      var loginButton=document.getElementById("login");
+      var searchButton=document.getElementById("searchButton");
+
+      function init(){
+
+        container = document.getElementById("container");
+        container.width = window.innerWidth;
+        container.height = window.innerHeight;
+
+        rain = document.getElementById("rain");
+        rain.width  = window.innerWidth;
+        rain.height  = window.innerHeight;
+
+        window.addEventListener('resize', function(){
+          console.log("resized");
+          rain.width  = window.innerWidth;
+          rain.height  = window.innerHeight;
+        });
+
+        rainTimer = setInterval(addDrop, 1000);
+        setInterval(animate, 30);
+
+      }
+
+      function animate() {
+          Update();
+      }
+
+      function Update(){
+        for(var i = 0; i < drops.length; i++){
+          if(drops[i].paused){
+            // nothing
+          }else{
+            if (drops[i].y < window.innerHeight){
+              drops[i].UpdatePosition(3);
+            }else{
+              //Remove the drop
+              var drop = drops[i].theDiv;
+              drop.parentNode.removeChild(drop);
+              drops.splice(i, 1);
+            }
+          }
+        }
+      }
+
+
+      function addDrop(){
+        if (drops.length == maxDrops){
+          // do nothing
+        }else{
+          drops[drops.length] = new Drop();
+        }
+      }
+
+
+      class Drop {
+
+        constructor(){
+          console.log("creating drop")
+          this.theDiv = document.createElement("div");
+          this.theDiv.className = "rainDrop";
+          this.theDiv.id = "drop"+drops.length;
+          this.width = 80;
+          this.height = 80;
+          this.x = Math.random()*(window.innerWidth);
+          this.y = -80;
+          this.paused = false;
+          this.UpdateDiv();
+
+          var r = RandColor();
+          var g = RandColor();
+          var b = RandColor();
+          this.theDiv.style.backgroundColor = "rgba("+r+","+g+","+b+",1.0)";
+
+
+          this.theDiv.addEventListener('click',function(){
+            console.log("click, paused: "+this.paused);
+            this.paused = !this.paused;
+          });
+
+          rain.appendChild(this.theDiv);
+
+        }
+
+        UpdateDiv(){
+          this.xString = this.x+"px";
+          this.yString = this.y+"px";
+          this.widthString = this.width+"px";
+          this.heightString = this.height+"px";
+          this.theDiv.style.width = this.widthString;
+          this.theDiv.style.height = this.widthString;
+          this.theDiv.style.left = this.xString;
+          this.theDiv.style.top = this.yString;
+        }
+
+        UpdatePosition(speed){
+          this.y += speed;
+          this.UpdateDiv();
+        }
+      }
+
+      function RandColor(){
+        return Math.random() * 255;
+      }
+      function displayNews(data){
+          //str
+          console.log("got into display news and was: "+data);
+        //  for (var i=0; i<newsArr.length; i++){
+          //  console.log(newsArr[i]);
+        //  }
+          ticker.innerHTML="New Event: "+data;
+          //ticker.innerHTML=data;
+          /*
+          console.log("got passed the getting ticker line");
+          var newElement = document.createElement('div');
+          console.log("got passed the getting create line");
+          newElement.textContent=data;
+          console.log("got passed the getting text line");
+          document.body.appendChild(newElement);
+          */
+        }
+
+        function getNewsFromMongo(data){
+          console.log("data was this: "+data);
+          var str = String(data);
+          newsArr.push(str);
+          for (var i = 0; i<newsArr.length; i++){
+            console.log("this is the data at"+i+": "+newsArr[i]);
+          }
+          displayNews(parseEventFromMongo(str));
+        }
+        function parseEventFromMongo(data){
+          var str = String(data);
+          var pieces = str.split(" ");
+          var ans = "";
+          //var i = 0;
+          for (p in pieces){
+            console.log("i was: "+p+" and the piece was: "+pieces[p]);
+            if (p==1){
+              var x="<a href = https://www.pornhub.com>"+pieces[p]+" "+"</a>";
+            }
+            else{
+              x=pieces[p];
+            }
+            ans+=x+" ";
+            //i+=1;
+          }
+          return ans;
+        }
+        logo.onmouseover=function(){
+          console.log("registered hovering on main logo");
+          searchButton.style.visibility="visible";
+          signUpButt.style.visibility="visible";
+          loginButton.style.visibility="visible";
+          setInterval(hideButtons,2000);
+        };
+        function hideButtons(){
+          searchButton.style.visibility="hidden";
+          signUpButt.style.visibility="hidden";
+          loginButton.style.visibility="hidden";
+        }
+    </script>
+    </html>
