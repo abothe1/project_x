@@ -71,8 +71,9 @@
 
       function Update(){
         for(var i = 0; i < drops.length; i++){
-          if(drops[i].theDiv.paused){
+          if(drops[i].paused){
             // pause
+
           }else{
             if (drops[i].y < window.innerHeight){
               drops[i].UpdatePosition(3);
@@ -96,6 +97,8 @@
         }
       }
 
+      var pausedDrop = null;
+
 
       class Drop {
 
@@ -115,15 +118,22 @@
           var b = RandColor();
           this.theDiv.style.backgroundColor = "rgba("+r+","+g+","+b+",1.0)";
           this.theDiv.paused = false;
+          this.theDiv.dropRef = this;
 
+          this.theButton = document.createElement("p");
+          this.theButton.innerHTML = "text";
+          this.theDiv.appendChild(this.theButton);
           rain.appendChild(this.theDiv);
           this.AddClickToDiv();
+        }
 
+        TogglePaused(){
+          this.paused = !this.paused;
         }
 
         AddClickToDiv(){
           this.theDiv.addEventListener('click',function(){
-            this.paused = !this.paused;
+            this.dropRef.TogglePaused();
           },false);
         }
 
