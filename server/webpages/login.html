@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script type ="text/javascript">
+
+	function login() {
+		var content = {
+			username: $("#username").val(),
+			password: $("#password").val(),
+		}
+
+		$.post('/login', content, data => {
+			if(data.success) {
+				window.location.href = "/home";
+			} else {
+				alert(`error: ${data.cause}`);
+			}
+		})
+	}
+	</script>
+	<title>Register</title>
+</head>
+<body>
+	<h2>Login</h2>
+	(to register click <a href="/register.html">here</a>)<br>
+	username: <input type=username id="username"/><br>
+	password: <input type=password id="password"/><br>
+	<button onclick="login()">login</button>
+</body>
+</html>

@@ -1,53 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script type ="text/javascript">
-
-	function sendMessage(){
-		var msg = $("#message_input").val();
-		$.post("/__add_status", {msg: msg}, res => {
-			if(res.success) {
-				$('#chatlog').append('<hr>');
-				$('#chatlog').append(`<text>${res.msg}</text>`);
-			} else {
-				alert(`error: ${res.error}`);
-			}
-		});
-	}
-
-	function register() {
-		var username = $("#username").val();
-		var email = $("#email").val();
-		var password = $("#password").val();
-		
-		$.post('register', {username:username, password:password, email:email}, result => {
-			alert(JSON.stringify(result))
-		})
-	}
-
-	function login() {
-		var username = $("#username").val();
-		var password = $("#password").val();
-
-		$.post('login', {username:username, password:password}, result => {
-			alert(JSON.stringify(result))
-		})
-	}
-</script>
+	<title>Project X</title>
 </head>
 <body>
-	to regsiter, click <a href="/register.html">here</a>
-	<br><hr>
-	username: <input type=username id="username"/><br>
-	email: <input type=password id="email"/><br>
-	password: <input type=text" id="password"/><br>
-	<button onclick="register()">register</button>
-	<button onclick="login()">login</button>
-	<br>
-	<input type=text" id="message_input"/>
-	<button onclick="sendMessage()">send</button>
-	<div id="chatlog"></div>
+	Please <a href="/register">register</a> or <a href="/login">login</a> to do anything
 </body>
 </html>
