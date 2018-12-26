@@ -1,5 +1,5 @@
 module.exports = {
-	connect: connect
+	connect: connect,
 }
 
 const PORT = 27017,
