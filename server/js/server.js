@@ -22,7 +22,9 @@ var client = redis.createClient();
 var app = express();
 var router = express.Router();
 
-// app.use(express.static(WEBPAGES_ROOT_DIR, { extensions: ['html'] }))
+app.use(express.static(WEBPAGES_ROOT_DIR, {
+	extensions: ['html']
+}))
 
 app.set('views', WEBPAGES_ROOT_DIR);
 app.engine('html', require('ejs').renderFile);
