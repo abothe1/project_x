@@ -1,14 +1,86 @@
 <!DOCTYPE html>
-    <html>
+  <html lang="en" dir="ltr">
     <head>
     <meta charset=utf-8 />
-
+    <title>Banda, Inc.</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <title>HTML5 Rain</title>
-    <!--[if IE]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      (function($) {
+        $(function() {
+          $('#mainbtn').click(function(){
+            $('.deg0, .deg30, .deg60, .deg90').toggleClass('open')
+          });
+        });
+      })(jQuery);
+    </script>
     <style>
+      #mainbtn {
+        position:absolute;
+        top:15px;
+        left:15px;
+        z-index:2;
+      }
+
+      .circle-container {
+        position: absolute;
+       top:-50px;
+       left:-47px;
+        width: 100px;
+        height: 100px;
+      z-index:0;
+      }
+      .circle-container a {
+        display: block;
+        overflow: hidden;
+        position: absolute;
+        width: 32px; height: 32px;
+        margin:50px;
+      }
+
+      .circle-container i { display: block; width: 100px; }
+      .deg0 { transform: rotate(-25deg) translate(5.75em) rotate(-0deg);   -webkit-transition: all 0.5s ease-out;
+        -moz-transition: all 0.5s ease-out;
+        transition: all 0.5s ease-out;}
+      .deg30 { transform: rotate(-25deg) translate(5.75em) rotate(-30deg);  -webkit-transition: all 0.5s ease-out;
+        -moz-transition: all 0.5s ease-out;
+        transition: all 0.5s ease-out; }
+      .deg60 { transform: rotate(-25deg) translate(5.75em) rotate(-60deg);  -webkit-transition: all 0.5s ease-out;
+        -moz-transition: all 0.5s ease-out;
+        transition: all 0.5s ease-out; }
+      .deg90 { transform: rotate(-25deg) translate(6em) rotate(-90deg);  -webkit-transition: all 0.5s ease-out;
+        -moz-transition: all 0.5s ease-out;
+        transition: all 0.5s ease-out;
+      }
+
+      a {
+        text-decoration:none;
+        color:black;
+      }
+
+      .fa-home:hover {color:tan;}
+      .fa-cog:hover {color:gray;}
+      .fa-comments:hover {color:teal;}
+      .fa-heart:hover {color:red;}
+
+      .open.deg0 { transform: rotate(0deg) translate(5.75em) rotate(-0deg); }
+      .open.deg30 { transform: rotate(30deg) translate(5.75em) rotate(-30deg); }
+      .open.deg60 { transform: rotate(60deg) translate(5.75em) rotate(-60deg); }
+      .open.deg90 { transform: rotate(90deg) translate(6em) rotate(-90deg);
+      }
+
+      #author {
+        font-family:'Squada One';
+        top: calc(50% + 50px);
+        left: calc(50% - 225px);
+        color:black;
+        font-size:40px;
+        text-decoration:none;
+        display: block;
+        position: absolute;
+        text-align:center;
+      }
+
       article, aside, figure, footer, header, hgroup,
       menu, nav, section { display: block; }
 
@@ -40,6 +112,8 @@
         height: 100%;
         position: absolute;
         background-color: rgba(0,0,0,0.9);
+        background-image: url('./assets/dkback.png');
+        background-size: contain;
         overflow: hidden;
       }
 
@@ -84,80 +158,8 @@
         border: 0;
         font-size: 36px;
       }
-
-      #mainbtn {
-        position:absolute;
-        top:15px;
-        left:15px;
-        z-index:2;
-      }
-
-      .circle-container {
-      	position: absolute;
-        top:-50px;
-        left:-47px;
-      	width: 100px;
-      	height: 100px;
-        z-index:0;
-      }
-      .circle-container a {
-      	display: block;
-      	overflow: hidden;
-      	position: absolute;
-      	width: 32px; height: 32px;
-        margin:50px;
-      }
-
-      .circle-container i { display: block; width: 100px; }
-      .deg0 { transform: rotate(-25deg) translate(5.75em) rotate(-0deg);   -webkit-transition: all 0.5s ease-out;
-        -moz-transition: all 0.5s ease-out;
-        transition: all 0.5s ease-out;}
-      .deg30 { transform: rotate(-25deg) translate(5.75em) rotate(-30deg);  -webkit-transition: all 0.5s ease-out;
-        -moz-transition: all 0.5s ease-out;
-        transition: all 0.5s ease-out; }
-      .deg60 { transform: rotate(-25deg) translate(5.75em) rotate(-60deg);  -webkit-transition: all 0.5s ease-out;
-        -moz-transition: all 0.5s ease-out;
-        transition: all 0.5s ease-out; }
-      .deg90 { transform: rotate(-25deg) translate(6em) rotate(-90deg);  -webkit-transition: all 0.5s ease-out;
-        -moz-transition: all 0.5s ease-out;
-        transition: all 0.5s ease-out;
-      }
-
-      a {
-        text-decoration:none;
-        color:black;
-      }
-
-      .fa-home:hover {color:tan;}
-      .fa-cog:hover {color:gray;}
-      .fa-comments:hover {color:teal;}
-      .fa-heart:hover {color:red;}
-
-      .open.deg0 { transform: rotate(0deg) translate(5.75em) rotate(-0deg); }
-      .open.deg30 { transform: rotate(30deg) translate(5.75em) rotate(-30deg); }
-      .open.deg60 { transform: rotate(60deg) translate(5.75em) rotate(-60deg); }
-      .open.deg90 { transform: rotate(90deg) translate(6em) rotate(-90deg);
-      }
-
-
-      #author {
-        font-family:'Squada One';
-        top: calc(50% + 50px);
-        left: calc(50% - 225px);
-        color:black;
-        font-size:40px;
-        text-decoration:none;
-        display: block;
-        position: absolute;
-        text-align:center;
-      }
-
-
     </style>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
     <script>
-
       var rain = null,
       drops = [],
       rainTimer = null,
@@ -285,34 +287,25 @@
       function RandColor(){
         return Math.random() * 255;
       }
-
-      (function($) {
-        $(function() {
-          $('#mainbtn').click(function(){
-            $('.deg0, .deg30, .deg60, .deg90').toggleClass('open')
-          });
-        });
-      })(jQuery);
-
     </script>
     </head>
     <body onload="init()">
       <div id="container2">
         <div id="rain">
 
-          <div id="container" style="z-index: 4;">
-            <div id="corner"><a href="#"><i id="mainbtn" class="fa fa-bars fa-2x fa-inverse"></i></a>
-              <svg height="200" width="200">
-            <circle cx="0" cy="0" r="75" fill="red" />
+          <div id="container">
+          <div id="corner"><a href="#"><i id="mainbtn" class="fa fa-bars fa-2x fa-inverse"></i></a>
+            <svg height="200" width="200">
+          <circle cx="0" cy="0" r="75" fill="black" />
           </svg>
-              </div>
+            </div>
           </div>
 
-          <div class='circle-container' style="z-index: 4;">
-          	<a href='#' class='deg0'><i class="fa fa-bars fa-2x fa-inverse"></i></a>
-          	<a href='#' class='deg30'><i class="fa fa-bars fa-2x fa-inverse"></i></a>
-            <a href='#' class='deg60'><i class="fa fa-bars fa-2x fa-inverse"></i></a>
-          	<a href='#' class='deg90'><i class="fa fa-bars fa-2x fa-inverse"></i></a>
+          <div class='circle-container'>
+          <a href='#' class='deg0'><i class="fa fa-bars fa-2x fa-inverse"></i></a>
+          <a href='#' class='deg30'><i class="fa fa-bars fa-2x fa-inverse"></i></a>
+          <a href='#' class='deg60'><i class="fa fa-bars fa-2x fa-inverse"></i></a>
+          <a href='#' class='deg90'><i class="fa fa-bars fa-2x fa-inverse"></i></a>
           </div>
 
           <div class="search">
@@ -322,4 +315,4 @@
         </div>
       </div>
     </body>
-    </html>
+  </html>
