@@ -14,6 +14,7 @@
         });
       })(jQuery);
     </script>
+    
     <style>
       #mainbtn {
         position:absolute;
@@ -159,6 +160,7 @@
         font-size: 36px;
       }
     </style>
+    <script type="text/javascript" src="mainLandingPageScript.js"></script>
     <script>
       var rain = null,
       drops = [],
@@ -240,21 +242,32 @@
           this.theDiv.style.backgroundColor = "rgba("+r+","+g+","+b+",1.0)";
           this.theDiv.paused = false;
           this.theDiv.dropRef = this;
-
+          this.audio = new Audio('transvertion.mp3');
+          this.audio.type='audio/mp3';
           this.theButton = document.createElement("p");
           this.theButton.innerHTML = "text";
           this.theDiv.appendChild(this.theButton);
           rain.appendChild(this.theDiv);
           this.AddClickToDiv();
         }
+        playAudio() {
+           var playPromise = this.audio.play();
 
+           if (playPromise !== undefined) {
+               playPromise.then(function () {
+                   console.log('Playing....');
+               }).catch(function (error) {
+                   console.log('Failed to play....' + error);
+               });
+           }
+       }
         TogglePaused(){
           this.paused = !this.paused;
-           if(paused){
-            //function to play audio link goes here
+           if(this.paused){
+             this.playAudio();
              }
           else{
-            //function to stop playing audio link goes here
+            this.audio.pause();
             }
         }
 
@@ -287,6 +300,11 @@
       function RandColor(){
         return Math.random() * 255;
       }
+    </script>
+    <script>
+      $.getJSON('/bands',function(data){
+      console.log(data);
+      });
     </script>
     </head>
     <body onload="init()">
