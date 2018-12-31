@@ -59,6 +59,7 @@ var samples = [];
 var musicBlocks = [];
 var searchMode="bands";
 
+console.log("script was loaded int the htmllll!");
 //register goes here
 function loginHit(){
   console.log("got into login hit");
@@ -74,7 +75,7 @@ $.get('/bands', function(data){
     samples.push(val['samples']);
   });
 });
-for s in samples{
+for (var s in samples){
   var musicBlock = {
    pic:s["pic"],
    audio:s["audio"]
