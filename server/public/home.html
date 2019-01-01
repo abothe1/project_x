@@ -34,12 +34,12 @@
 	function recv_msg(){
 		$.get('/__get_statuses', {}, res => {
 			alert(JSON.stringify(res));
-			if(res.success) {
-				$('#chatlog').append('<hr>');
-				$('#chatlog').append(`<text>${res.status}</text>`);
-			} else {
-				alert(`recv error: ${res.error}`);
-			}			
+			// if(res.success) {
+			// 	$('#chatlog').append('<hr>');
+			// 	$('#chatlog').append(`<text>${res.status}</text>`);
+			// } else {
+			// 	alert(`recv error: ${res.error}`);
+			// }			
 		});
 	}
 </script>
